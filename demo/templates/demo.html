@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Post Flair Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='demo.css') }}">
+</head>
+<body>
+    <h1>Post Flair Classifier</h1>
+    <form method="POST">
+        <textarea name="title" placeholder="Enter your title here"></textarea>
+        <textarea name="post" placeholder="Enter your post here"></textarea>
+        <button type="submit">Classify</button>
+    </form>
+    <h3>Title: {{ title }}<br><br>Body: {{ body }}</h3>
+    <h2>Predicted label: {{ label }}</h2>
+</body>
+</html>
