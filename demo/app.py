@@ -4,8 +4,7 @@ import torch
 
 app = Flask(__name__)
 
-model = RobertaForSequenceClassification.from_pretrained("roberta-base", num_labels=10)
-model.load_state_dict(torch.load('./roberta_model.pth', map_location=torch.device('cpu')))
+model = RobertaForSequenceClassification.from_pretrained("aalexzhang/Flair-It-RoBERTa")
 tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
 
 label_mapping = {
@@ -37,7 +36,7 @@ def index():
             probs = torch.softmax(outputs.logits, dim=-1)
             predicted_class = torch.argmax(probs, dim=-1).item()
             predicted_label = label_mapping[predicted_class]
-    return render_template('demo.html', label=predicted_label, title=title, body=post)
+    return render_template('demo.html', label=predicted_label)
 
 
 if __name__ == '__main__':
