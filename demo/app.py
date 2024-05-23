@@ -22,21 +22,23 @@ label_mapping = {
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    predicted_label = ""
+    predicted_labels = ""
     if request.method == 'POST':
         title = request.form.get('title') or ""
         post = request.form.get('post') or ""
         print(title, post)
         if title.strip() == "" and post.strip() == "":
-            predicted_label = ""
+            predicted_labels = ""
         else:
             inputs = tokenizer(title + " " + post, return_tensors="pt")
             with torch.no_grad():
                 outputs = model(**inputs)
             probs = torch.softmax(outputs.logits, dim=-1)
-            predicted_class = torch.argmax(probs, dim=-1).item()
-            predicted_label = label_mapping[predicted_class]
-    return render_template('demo.html', label=predicted_label)
+            print(probs)
+            threshold = 0.3
+            high_prob_indices = torch.where(probs > threshold)[1]
+            predicted_labels = [label_mapping[index.item()] for index in high_prob_indices]
+    return render_template('demo.html', label=predicted_labels)
 
 
 if __name__ == '__main__':
