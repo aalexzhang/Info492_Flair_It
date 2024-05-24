@@ -92,8 +92,16 @@ def index():
         return redirect(url_for('index'))
 
     posts = Post.query.all()
-    return render_template('demo.html', posts=posts, color_mapping=color_mapping)
+    return render_template('demo.html', posts=posts, color_mapping=color_mapping, filtered=False)
 
+@app.route('/filter/<label>', methods=['GET'])
+def filter(label):
+    posts = Post.query.filter(Post.label.contains(label)).all()
+    return render_template('demo.html', posts=posts, color_mapping=color_mapping, filtered=True)
+
+@app.route('/unfilter', methods=['GET'])
+def unfilter():
+    return redirect(url_for('index'))
 
 # Delete post button route
 @app.route('/delete_post/<int:post_id>', methods=['POST'])
