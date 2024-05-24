@@ -23,7 +23,12 @@
         <div class="post-container">
             <h2 class="post-title">{{ post.title }}</h2>
             <p class="post-content">{{ post.post }}</p>
-            <p class="post-label">Label: {{ post.label }}</p>
+            <p class="post-labels">Labels:
+                {% for label in post.label.split(', ') %}
+                    <!--Two errors but code still works, thinking something with ide syntax :)))-->
+                    <span style="color: {{ color_mapping[label] }}">{{ label }}</span>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </p>
             <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
                 <input type="submit" value="Delete">
             </form>

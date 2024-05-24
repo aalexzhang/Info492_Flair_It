@@ -8,8 +8,10 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
+# Set secret key 
 app.secret_key = os.getenv('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///udub.db'
+db_uri = "udub.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_uri
 
 db = SQLAlchemy(app)
 class Post(db.Model):
@@ -35,6 +37,19 @@ label_mapping = {
     7: "psa",
     8: "rant",
     9: "student life"
+}
+
+color_mapping = {
+    "academics": "red",
+    "admissions": "blue",
+    "advice": "green",
+    "discussion": "purple",
+    "event": "orange",
+    "meme": "pink",
+    "poll": "brown",
+    "psa": "cyan",
+    "rant": "magenta",
+    "student life": "gold"
 }
 
 # Get and post route
@@ -77,7 +92,7 @@ def index():
         return redirect(url_for('index'))
 
     posts = Post.query.all()
-    return render_template('demo.html', posts=posts)
+    return render_template('demo.html', posts=posts, color_mapping=color_mapping)
 
 
 # Delete post button route
