@@ -36,3 +36,26 @@ h2 {
     text-align: center;
     padding: 20px 0;
 }
+
+.post-container {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.post-title {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.post-content {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.post-label {
+    font-size: 0.8em;
+    color: #999;
+}

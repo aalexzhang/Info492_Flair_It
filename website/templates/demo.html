@@ -10,13 +10,20 @@
         <textarea name="title" placeholder="Enter your title here"></textarea>
         <textarea name="post" placeholder="Enter your post here"></textarea>
         <button type="submit">Submit Post</button>
+        {% with messages = get_flashed_messages()%}
+            {% if messages%}
+                {% for message in messages%}
+                <p>{{message}}</p>
+                {%endfor%}
+            {%endif%}
+        {%endwith%}
     </form>
     <h2>
         {% for post in posts %}
-        <div style="border: 1px solid #ddd; margin-bottom: 20px; padding: 20px; border-radius: 5px; background-color: #f9f9f9;">
-            <h2 style="margin-bottom: 20px; color: #333;">{{ post.title }}</h2>
-            <p style="margin-bottom: 20px; color: #666;">{{ post.post }}</p>
-            <p style="font-size: 0.8em; color: #999;">Label: {{ post.label }}</p>
+        <div class="post-container">
+            <h2 class="post-title">{{ post.title }}</h2>
+            <p class="post-content">{{ post.post }}</p>
+            <p class="post-label">Label: {{ post.label }}</p>
             <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
                 <input type="submit" value="Delete">
             </form>

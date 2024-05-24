@@ -1,9 +1,14 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, flash
 from transformers import RobertaForSequenceClassification, RobertaTokenizer
 from flask_sqlalchemy import SQLAlchemy
 import torch
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///udub.db'
 
 db = SQLAlchemy(app)
@@ -32,14 +37,15 @@ label_mapping = {
     9: "student life"
 }
 
+# Get and post route
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         title = request.form.get('title') or ""
         post = request.form.get('post') or ""
-        print(title, post)
         if title.strip() == "" and post.strip() == "":
             predicted_labels = ""
+            flash("Error: Please enter a title or post")
         else:
             try:
                 inputs = tokenizer(title + " " + post, return_tensors="pt")
@@ -49,21 +55,32 @@ def index():
                 print(probs)
                 threshold = 0.3
                 high_prob_indices = torch.where(probs > threshold)[1]
+                print(high_prob_indices)
                 predicted_labels = [label_mapping[index.item()] for index in high_prob_indices]
+                print(predicted_labels)
+                if not predicted_labels:
+                    max_prob_index = torch.argmax(probs)
+                    predicted_labels.append(label_mapping[max_prob_index.item()])
+
                 predicted_labels_string = ', '.join(predicted_labels)
 
                 new_post = Post(title=title, post=post, label=predicted_labels_string)
                 db.session.add(new_post)
                 db.session.commit()
+                flash("Post added successfully")
             except RuntimeError as e:
-                if "Error: Your text is too long. Please shorten it and try again." in str(e):
-                    return "Error: Your text is too long. Please shorten it and try again."
+                print(e)
+                if "The expanded size of the tensor" in str(e):
+                    flash("Error: Your text is too long. Please shorten it and try again.")
+                else:
+                    flash("Error: Something went wrong. Please try again.")
         return redirect(url_for('index'))
 
     posts = Post.query.all()
     return render_template('demo.html', posts=posts)
 
 
+# Delete post button route
 @app.route('/delete_post/<int:post_id>', methods=['POST'])
 def delete_post(post_id):
     post_to_delete = Post.query.get_or_404(post_id)
