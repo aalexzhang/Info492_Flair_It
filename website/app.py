@@ -1,60 +1,59 @@
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, session
 from transformers import RobertaForSequenceClassification, RobertaTokenizer
 from flask_sqlalchemy import SQLAlchemy
 import torch
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
 app = Flask(__name__)
-# Set secret key 
+
 app.secret_key = os.getenv('SECRET_KEY')
-db_uri = "udub.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_uri
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 
 db = SQLAlchemy(app)
+
 class Post(db.Model):
+    __abstract__ = True
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     post = db.Column(db.String(120), nullable=False)
     label = db.Column(db.String(120), nullable=False)
 
+class udub(Post):
+    __tablename__ = 'udub'
+
+class rutgers(Post):
+    __tablename__ = 'rutgers'
+
+class usc(Post):
+    __tablename__ = 'usc'
+
+class nyu(Post):
+    __tablename__ = 'nyu'
+
+class uiuc(Post):
+    __tablename__ = 'uiuc'
+
 with app.app_context():
     db.create_all()
 
-model = RobertaForSequenceClassification.from_pretrained("aalexzhang/Flair-It-RoBERTa")
+model = RobertaForSequenceClassification.from_pretrained("aalexzhang/Flair-It-RoBERTa-udub")
 tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
 
-label_mapping = {
-    0: "academics",
-    1: "admissions",
-    2: "advice",
-    3: "discussion",
-    4: "event",
-    5: "meme",
-    6: "poll",
-    7: "psa",
-    8: "rant",
-    9: "student life"
-}
-
-color_mapping = {
-    "academics": "red",
-    "admissions": "blue",
-    "advice": "green",
-    "discussion": "purple",
-    "event": "orange",
-    "meme": "pink",
-    "poll": "brown",
-    "psa": "cyan",
-    "rant": "magenta",
-    "student life": "gold"
-}
-
-# Get and post route
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if 'post_model' not in session:
+        return render_template('start.html')
+    post_model = globals()[session['post_model']]
+    model_name = session.get('model')
+    if model_name:
+        model = RobertaForSequenceClassification.from_pretrained(model_name)
+    label_mapping = session.get('label_mapping')
+    color_mapping = session.get('color_mapping')
     if request.method == 'POST':
         title = request.form.get('title') or ""
         post = request.form.get('post') or ""
@@ -67,19 +66,18 @@ def index():
                 with torch.no_grad():
                     outputs = model(**inputs)
                 probs = torch.softmax(outputs.logits, dim=-1)
-                print(probs)
                 threshold = 0.3
                 high_prob_indices = torch.where(probs > threshold)[1]
-                print(high_prob_indices)
+                print(label_mapping)
+                label_mapping = {int(k): v for k, v in label_mapping.items()}
                 predicted_labels = [label_mapping[index.item()] for index in high_prob_indices]
-                print(predicted_labels)
                 if not predicted_labels:
                     max_prob_index = torch.argmax(probs)
                     predicted_labels.append(label_mapping[max_prob_index.item()])
 
                 predicted_labels_string = ', '.join(predicted_labels)
 
-                new_post = Post(title=title, post=post, label=predicted_labels_string)
+                new_post = post_model(title=title, post=post, label=predicted_labels_string)
                 db.session.add(new_post)
                 db.session.commit()
                 flash("Post added successfully")
@@ -90,23 +88,37 @@ def index():
                 else:
                     flash("Error: Something went wrong. Please try again.")
         return redirect(url_for('index'))
-
-    posts = Post.query.all()
+    posts = post_model.query.all()
+    print(posts, "SDFSDFSDFSDFSDFSDF")
     return render_template('demo.html', posts=posts, color_mapping=color_mapping, filtered=False)
+
+@app.route('/<selection>', methods=['GET'])
+def select(selection):
+    with open('config.json') as f:
+        configs = json.load(f)
+    config = configs.get(selection)
+    if config:
+        session['model'] = config['model']
+        session['label_mapping'] = {int(k): v for k, v in config['label_mapping'].items()}
+        session['color_mapping'] = config['color_mapping']
+        session['post_model'] = config['post_model']
+    return redirect(url_for('index'))
 
 @app.route('/filter/<label>', methods=['GET'])
 def filter(label):
-    posts = Post.query.filter(Post.label.contains(label)).all()
+    post_model = globals()[session['post_model']]
+    posts = post_model.query.filter(post_model.label.contains(label)).all()
+    color_mapping = session.get('color_mapping')
     return render_template('demo.html', posts=posts, color_mapping=color_mapping, filtered=True)
 
 @app.route('/unfilter', methods=['GET'])
 def unfilter():
     return redirect(url_for('index'))
 
-# Delete post button route
 @app.route('/delete_post/<int:post_id>', methods=['POST'])
 def delete_post(post_id):
-    post_to_delete = Post.query.get_or_404(post_id)
+    post_model = globals()[session['post_model']]
+    post_to_delete = post_model.query.get_or_404(post_id)
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for('index'))

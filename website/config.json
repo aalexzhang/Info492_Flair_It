@@ -1,0 +1,152 @@
+{
+    "udub": {
+        "db_uri": "udub.db",
+        "model": "aalexzhang/Flair-It-RoBERTa-udub",
+        "label_mapping": {
+            "0": "academics",
+            "1": "admissions",
+            "2": "advice",
+            "3": "discussion",
+            "4": "event",
+            "5": "meme",
+            "6": "poll",
+            "7": "psa",
+            "8": "rant",
+            "9": "student life"
+        },
+        "color_mapping": {
+            "academics": "red",
+            "admissions": "blue",
+            "advice": "green",
+            "discussion": "purple",
+            "event": "orange",
+            "meme": "pink",
+            "poll": "brown",
+            "psa": "cyan",
+            "rant": "magenta",
+            "student life": "gold"
+        },
+        "post_model": "udub"
+    },
+    "rutgers": {
+        "db_uri": "rutgers.db",
+        "model": "aalexzhang/Flair-It-RoBERTa-rutgers",
+        "label_mapping": {
+            "0": "Tech Support",
+            "1": "Academics",
+            "2": "Schedule",
+            "3": "Athletics",
+            "4": "Advice Wanted",
+            "5": "Buying/Selling",
+            "6": "Recommendation",
+            "7": "Social",
+            "8": "General Question",
+            "9": "Housing",
+            "10": "Lost & Found",
+            "11": "Tuition",
+            "12": "Greek Life",
+            "13": "Transfer",
+            "14": "News",
+            "15": "Quality Post",
+            "16": "Comp Sci",
+            "17": "Shitpost",
+            "18": "Bus",
+            "19": "Dank Meme",
+            "20": "Rant/Vent",
+            "21": "Jobs",
+            "22": "Art",
+            "23 ": "Admissions"
+          },
+        "color_mapping": {
+            "Tech Support": "#1E90FF",
+            "Academics": "#32CD32",
+            "Schedule": "#FFD700",
+            "Athletics": "#FF6347",
+            "Advice Wanted": "#8A2BE2",
+            "Buying/Selling": "#FF4500",
+            "Recommendation": "#20B2AA",
+            "Social": "#FF69B4",
+            "General Question": "#6495ED",
+            "Housing": "#DC143C",
+            "Lost & Found": "#008B8B",
+            "Tuition": "#B22222",
+            "Greek Life": "#7FFF00",
+            "Transfer": "#FF8C00",
+            "News": "#DAA520",
+            "Quality Post": "#4B0082",
+            "Comp Sci": "#00CED1",
+            "Shitpost": "#FF00FF",
+            "Bus": "#8B0000",
+            "Dank Meme": "#ADFF2F",
+            "Rant/Vent": "#FF1493",
+            "Jobs": "#00FF00",
+            "Art": "#9932CC",
+            "Admissions": "#4682B4"
+          },
+        "post_model": "rutgers"
+    },
+    "nyu": {
+        "db_uri": "nyu.db",
+        "model": "aalexzhang/Flair-It-RoBERTa-NYU",
+        "label_mapping": {
+            "option2_label1": "green",
+            "option2_label2": "purple"
+        },
+        "color_mapping": {
+            "option2_color1": "green",
+            "option2_color2": "purple"
+        },
+        "post_model": "nyu"
+    },
+    "usc": {
+        "db_uri": "usc.db",
+        "model": "aalexzhang/Flair-It-RoBERTa-usc",
+        "label_mapping": {
+            "0": "clubs | campus life",
+            "1": "academic",
+            "2": "meme",
+            "3": "question",
+            "4": "housing",
+            "5": "news",
+            "6": "other",
+            "7": "sports",
+            "8": "admissions",
+            "9": "financialaid",
+            "10": "photo",
+            "11": "discussion",
+            "12": "professors",
+            "13": "false alarm"
+          },
+        "color_mapping": {
+            "clubs | campus life": "#FF4500",
+            "academic": "#1E90FF",
+            "meme": "#32CD32",
+            "question": "#FFD700",
+            "housing": "#FF6347",
+            "news": "#8A2BE2",
+            "other": "#20B2AA",
+            "sports": "#FF69B4",
+            "admissions": "#6495ED",
+            "financialaid": "#DC143C",
+            "photo": "#008B8B",
+            "discussion": "#B22222",
+            "professors": "#7FFF00",
+            "false alarm": "#FF8C00"
+          }
+          ,
+        "post_model": "usc"
+    },
+    "uiuc": {
+        "db_uri": "uiuc.db",
+        "model": "aalexzhang/Flair-It-RoBERTa-UIUC",
+        "label_mapping": {
+            "option2_label1": "green",
+            "option2_label2": "purple"
+        },
+        "color_mapping": {
+            "option2_color1": "green",
+            "option2_color2": "purple"
+        },
+        "post_model": "uiuc"
+    }
+}

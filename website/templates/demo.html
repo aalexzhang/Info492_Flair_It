@@ -1,41 +1,87 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Post Flair Classifier</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='demo.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-    <h1>Reddit Forum Clone Demo</h1>
-    <form method="POST">
-        <textarea name="title" placeholder="Enter your title here"></textarea>
-        <textarea name="post" placeholder="Enter your post here"></textarea>
-        <button type="submit">Submit Post</button>
-        {% with messages = get_flashed_messages()%}
-            {% if messages%}
-                {% for message in messages%}
-                <p>{{message}}</p>
-                {%endfor%}
-            {%endif%}
-        {%endwith%}
-    </form>
-    {% if filtered %}
-        <a href="{{ url_for('unfilter') }}" class="unfilter-button">Unfilter</a>
-    {% endif %}
-    <h2>
-        {% for post in posts %}
-        <div class="post-container">
-            <h2 class="post-title">{{ post.title }}</h2>
-            <p class="post-content">{{ post.post }}</p>
-            <p class="post-labels">Labels:
-                {% for label in post.label.split(', ') %}
-                    <a href="{{ url_for('filter', label=label) }}" style="color: {{ color_mapping[label] }}">{{ label }}</a>{% if not loop.last %}, {% endif %}
-                {% endfor %}
-            </p>
-            <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
-                <input type="submit" value="Delete">
-            </form>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="udub">
+                                udub
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="rutgers">
+                                rutgers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="nyu">
+                                nyu
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="usc">
+                                usc
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="uiuc">
+                                uiuc
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <h1>Reddit Forum Clone Demo</h1>
+                <form method="POST">
+                    <textarea name="title" placeholder="Enter your title here"></textarea>
+                    <textarea name="post" placeholder="Enter your post here"></textarea>
+                    <button type="submit">Submit Post</button>
+                    {% with messages = get_flashed_messages()%}
+                    {% if messages%}
+                    {% for message in messages%}
+                    <p>{{message}}</p>
+                    {%endfor%}
+                    {%endif%}
+                    {%endwith%}
+                </form>
+                {% if filtered %}
+                <a href="{{ url_for('unfilter') }}" class="unfilter-button">Unfilter</a>
+                {% endif %}
+                <h2>
+                    {% for post in posts %}
+                    <div class="post-container">
+                        <h2 class="post-title">{{ post.title }}</h2>
+                        <p class="post-content">{{ post.post }}</p>
+                        <p class="post-labels">Labels:
+                            {% for label in post.label.split(', ') %}
+                            <a href="{{ url_for('filter', label=label) }}" style="color: {{ color_mapping[label] }}">{{
+                                label }}</a>{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                        <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </div>
+                    {% endfor %}
+                </h2>
+            </main>
         </div>
-        {% endfor %}
-    </h2>
+    </div>
+
 </body>
+
 </html>
