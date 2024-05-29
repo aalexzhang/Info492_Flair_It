@@ -16,27 +16,28 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="udub">
+                            <a class="nav-link {{ 'active' if session['post_model'] == 'udub' else '' }}" href="udub">
                                 udub
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="rutgers">
+                            <a class="nav-link {{ 'active' if session['post_model'] == 'rutgers' else '' }}"
+                                href="rutgers">
                                 rutgers
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="nyu">
+                            <a class="nav-link {{ 'active' if session['post_model'] == 'nyu' else '' }}" href="nyu">
                                 nyu
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="usc">
+                            <a class="nav-link {{ 'active' if session['post_model'] == 'usc' else '' }}" href="usc">
                                 usc
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="uiuc">
+                            <a class="nav-link {{ 'active' if session['post_model'] == 'uiuc' else '' }}" href="uiuc">
                                 uiuc
                             </a>
                         </li>

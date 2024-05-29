@@ -89,13 +89,31 @@
         "db_uri": "nyu.db",
         "model": "aalexzhang/Flair-It-RoBERTa-NYU",
         "label_mapping": {
-            "option2_label1": "green",
-            "option2_label2": "purple"
-        },
+            "0": "academics & research",
+            "1": "student & alumni life",
+            "2": "advice",
+            "3": "nyc",
+            "4": "meme",
+            "5": "admissions",
+            "6": "financial aid",
+            "7": "housing",
+            "8": "opinion",
+            "9": "nyu in the media",
+            "10": "history & traditions"
+          },
         "color_mapping": {
-            "option2_color1": "green",
-            "option2_color2": "purple"
-        },
+            "0": "academics & research",
+            "1": "student & alumni life",
+            "2": "advice",
+            "3": "nyc",
+            "4": "meme",
+            "5": "admissions",
+            "6": "financial aid",
+            "7": "housing",
+            "8": "opinion",
+            "9": "nyu in the media",
+            "10": "history & traditions"
+          },
         "post_model": "nyu"
     },
     "usc": {
@@ -140,13 +158,45 @@
         "db_uri": "uiuc.db",
         "model": "aalexzhang/Flair-It-RoBERTa-UIUC",
         "label_mapping": {
-            "option2_label1": "green",
-            "option2_label2": "purple"
-        },
+            "0": "new student question",
+            "1": "academics",
+            "2": "news",
+            "3": "sports",
+            "4": "sales",
+            "5": "housing",
+            "6": "work related",
+            "7": "prospective students",
+            "8": "shitpost",
+            "9": "covid-19",
+            "10": "mod request",
+            "11": "chambana questions",
+            "12": "social",
+            "13": "other",
+            "14": "ama",
+            "15": "photos",
+            "16": "sublease",
+            "17": "ongoing events"
+          },
         "color_mapping": {
-            "option2_color1": "green",
-            "option2_color2": "purple"
-        },
+            "new student question": "#32CD32",
+            "academics": "#1E90FF",
+            "news": "#FFD700",
+            "sports": "#FF6347",
+            "sales": "#8A2BE2",
+            "housing": "#FF4500",
+            "work related": "#20B2AA",
+            "prospective students": "#FF69B4",
+            "shitpost": "#6495ED",
+            "covid-19": "#DC143C",
+            "mod request": "#008B8B",
+            "chambana questions": "#B22222",
+            "social": "#7FFF00",
+            "other": "#FF8C00",
+            "ama": "#FF1493",
+            "photos": "#00FF00",
+            "sublease": "#9932CC",
+            "ongoing events": "#4682B4"
+          },
         "post_model": "uiuc"
     }
 }

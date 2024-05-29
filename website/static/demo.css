@@ -59,3 +59,7 @@ h2 {
     font-size: 0.8em;
     color: #999;
 }
+
+.sidebar .active {
+    background-color: lightblue;
+}
