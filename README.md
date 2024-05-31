@@ -25,7 +25,7 @@ git clone https://github.com/yourusername/Flair-It.git
 cd Flair-It
 pip install -r requirements.txt
 ```
-### Data collection
+### Data Collection
 Download Reddit post data from [ArcticShift](https://github.com/ArthurHeitmann/arctic_shift).
 ### Data Cleaning
 Use [Json_to_CSV.ipynb](Week5/Json_to_CSV.ipynb) and [DatasetsCreation.ipynb](Week6/DatasetsCreation.ipynb) to clean the post data.
