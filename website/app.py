@@ -44,6 +44,13 @@ with app.app_context():
 model = RobertaForSequenceClassification.from_pretrained("aalexzhang/Flair-It-RoBERTa-udub")
 tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
 
+models = {}
+
+def get_model(model_name):
+    if model_name not in models:
+        models[model_name] = RobertaForSequenceClassification.from_pretrained(model_name)
+    return models[model_name]
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'post_model' not in session:
@@ -51,7 +58,7 @@ def index():
     post_model = globals()[session['post_model']]
     model_name = session.get('model')
     if model_name:
-        model = RobertaForSequenceClassification.from_pretrained(model_name)
+        model = get_model(model_name)
     label_mapping = session.get('label_mapping')
     color_mapping = session.get('color_mapping')
     if request.method == 'POST':
