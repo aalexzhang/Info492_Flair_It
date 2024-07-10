@@ -2,6 +2,9 @@
 
 Flair-It is a machine learning project aimed to automate and streamline the flairing system for Reddit. With the disruption of manual flairing, many subreddits face challenges in categorizing posts effectively. Flair-It provides an intelligent platform that helps automate the assignment of flairs to Reddit posts, enhancing user experience and improving content discoverability. Check out Flair-It through our demo.
 
+## Link to Research/Report Paper
+https://docs.google.com/document/d/1u8Ry1eBghT_vFedIspSBHiGwB2JFvkZd8Lz2HI_NIqs/edit?usp=sharing
+
 ## Features
 
 ### Automated Flairing
